@@ -1,20 +1,17 @@
-name: CI
+# .github/workflows/manual-ci.yml
+name: Run Cypress Tests Manually
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch: # Permite execução manual
 
 jobs:
-  build:
+  cypress-tests:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout do código
+      - name: Checkout código
         uses: actions/checkout@v3
 
-      - name: Configurar Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
@@ -22,5 +19,5 @@ jobs:
       - name: Instalar dependências
         run: npm install
 
-      - name: Rodar testes
-        run: npm test
+      - name: Rodar testes com Cypress
+        run: npx cypress run
