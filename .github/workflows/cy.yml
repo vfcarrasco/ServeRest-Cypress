@@ -14,16 +14,17 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Instalar Node.js
+      - name: Instalar Node.js (versão compatível com Cypress)
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '18.18.2'  # Evita o erro do --loader
           cache: 'npm'
 
       - name: Instalar dependências
         run: npm ci
 
-      - name: Rodar Cypress
-        run: |
-          npx cypress install
-          npx cypress run
+      - name: Reinstalar Cypress (evita uso de versão em cache)
+        run: npx cypress install --force
+
+      - name: Rodar Cypress com Electron (evita conflitos com Chrome e loader)
+        run: npx cypress run --browser electron
